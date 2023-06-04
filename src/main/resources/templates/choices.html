@@ -5,21 +5,25 @@
     <title>Choose an Option</title>
 </head>
 <body>
-<h1>Choose an Option</h1>
 <form action="/handle-choice" method="post">
-    <label>
-        <input type="radio" name="choice" value="tagChoice"> 1.Get a random cat with a tag with user’s input being the tag.
-    </label><br>
-    <label>
-        <input type="radio" name="choice" value="textChoice"> 2.Get a random cat with a text with user’s input being the text.
-    </label><br>
-    <label>
-        <input type="radio" name="choice" value="widthHeightChoice"> 3.Get a random cat with user defined width and height.
-    </label><br>
-    <button type="submit">Submit</button>
+    <fieldset>
+        <legend>Choose an option<span aria-label="required">*</span></legend>
+        <label>
+            <input type="radio" required name="choice" value="tagChoice"> 1.Get a random cat with a tag.
+        </label><br>
+        <label>
+            <input type="radio" required name="choice" value="textChoice"> 2.Get a random cat with a text.
+        </label><br>
+        <label>
+            <input type="radio" required name="choice" value="widthHeightChoice"> 3.Get a random cat with width or height.
+        </label><br><br>
+        <button type="submit">Submit</button>
+    </fieldset>
+
 </form>
+<br>
 <form action="/generateReport" method="get">
-<button type="submit" >Generate Report</button>
+    <button type="submit">Generate Report</button>
 </form>
 </body>
 </html>

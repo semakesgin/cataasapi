@@ -1,19 +1,32 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>Result</title>
+    <meta charset="UTF-8">
+    <title>Result</title>
 </head>
 <body>
-<form action="/handle-tag-inserted" method="post" >
-  <h1>Please write tag</h1>
-  <label>Tag:
-    <input type="text" name="tag">
-  </label><br> <br>
-  <label>File Name:
-    <input type="text" name="fileName">
-  </label><br>
-  <button type="submit">Submit</button>
+<form action="/handle-tag-inserted" method="post">
+    <fieldset>
+        <legend>Please enter a tag</legend>
+        <table>
+            <tr>
+                <td>Tag:</td>
+                <td><input type="text" name="tag" required><span aria-label="required">*</span>
+                </td>
+            </tr>
+            <tr>
+                <td>File Name:</td>
+                <td><input type="text" name="fileName" required><span aria-label="required">*</span>
+                </td>
+            <tr>
+                <td></td>
+                <td>
+                    <button type="submit">Submit</button>
+                </td>
+            </tr>
+        </table>
+
+    </fieldset>
 </form>
 </body>
 </html>

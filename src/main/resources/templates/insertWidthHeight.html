@@ -1,23 +1,36 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>Result</title>
+    <meta charset="UTF-8">
+    <title>Result</title>
 </head>
 <body>
-<form action="/handle-width-height-inserted" method="post" >
-  <h1>Please write height and width</h1>
-  <label>Height:
-    <input type="text" name="height">
-  </label><br>
-  <label>Width:
-    <input type="text" name="width">
-  </label><br>
-  <br>
-  <label>File Name:
-    <input type="text" name="fileName">
-  </label><br>
-  <button type="submit">Submit</button>
+<form action="/handle-width-height-inserted" method="post">
+    <fieldset>
+        <legend>Please enter width or height</legend>
+        <table>
+            <tr>
+                <td>
+                    Width:
+                </td>
+                <td><input type="text" name="width" th:type="number">
+                </td>
+            <tr>
+                <td>Height:</td>
+                <td><input type="text" name="height" th:type="number">
+                </td>
+            </tr>
+            <tr>
+                <td>File Name:</td>
+              <td><input type="text" name="fileName" required>
+              </td>
+            </tr>
+            <tr>
+                <td></td><td>
+                <button type="submit">Submit</button>
+                </td></tr>
+        </table>
+    </fieldset>
 </form>
 </body>
 </html>

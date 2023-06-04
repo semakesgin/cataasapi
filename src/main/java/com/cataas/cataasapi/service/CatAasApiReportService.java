@@ -67,12 +67,10 @@ public class CatAasApiReportService {
         File reportFile = new File(fileName);
         Resource resource = new FileSystemResource(reportFile);
 
-        // Set the response headers
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
         headers.setContentDispositionFormData("attachment", reportFile.getName());
 
-        // Copy the report file to a temporary location
         Path tempFilePath = Files.createTempFile("temp", reportFile.getName());
         Files.copy(reportFile.toPath(), tempFilePath, StandardCopyOption.REPLACE_EXISTING);
         //Files.delete(reportFile.toPath());
@@ -118,5 +116,8 @@ public class CatAasApiReportService {
                 .filter(Files::isRegularFile)
                 .filter(p -> p.getFileName().toString().endsWith(".jpg"))
                 .count();
+    }
+    public void setRootDirectory(String rootDirectory) {
+        this.rootDirectory = rootDirectory;
     }
 }

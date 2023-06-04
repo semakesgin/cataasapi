@@ -44,8 +44,9 @@ public class CatAasApiController {
         model.addAttribute("fileName", fileName);
 
         if (tag != "" && fileName != "") {
-            return service.downloadImageFile(catImageUrlStr + "/" + tag, fileName, "Tags");
+            return service.downloadImageFile(catImageUrlStr + "/" + tag, fileName, "Tag");
         }
+
         return ResponseEntity.notFound().build();
 
     }
@@ -56,7 +57,7 @@ public class CatAasApiController {
         model.addAttribute("fileName", fileName);
 
         if (text != "" && fileName != "") {
-            return service.downloadImageFile(catImageUrlStr + "/says/" + text, fileName, "Texts");
+            return service.downloadImageFile(catImageUrlStr + "/says/" + text, fileName, "Text");
         }
         return ResponseEntity.notFound().build();
 
@@ -70,10 +71,10 @@ public class CatAasApiController {
 
         if (fileName != "") {
             if (width != "") {
-                return service.downloadImageFile(catImageUrlStr + "?width=" + width, fileName, "Width and Heights");
+                return service.downloadImageFile(catImageUrlStr + "?width=" + width, fileName, "Width or Height");
 
             } else if (height != "") {
-                return service.downloadImageFile(catImageUrlStr + "?height=" + height, fileName, "Width and Heights");
+                return service.downloadImageFile(catImageUrlStr + "?height=" + height, fileName, "Width or Height");
 
             }
         }

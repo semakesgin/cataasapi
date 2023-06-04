@@ -1,19 +1,32 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>Result</title>
+    <meta charset="UTF-8">
+    <title>Result</title>
 </head>
 <body>
-<form action="/handle-text-inserted" method="post" >
-  <h1>Please write text</h1>
-  <label>Text:
-    <input type="text" name="text">
-  </label><br> <br>
-  <label>File Name:
-    <input type="text" name="fileName">
-  </label><br>
-  <button type="submit">Submit</button>
+<form action="/handle-text-inserted" method="post">
+    <fieldset>
+        <legend>Please enter a text</legend>
+        <table>
+            <tr>
+                <td>Text:</td>
+                <td><input type="text" name="text" required><span aria-label="required">*</span>
+                </td>
+            </tr>
+            <tr>
+                <td>File Name:</td>
+                <td><input type="text" name="fileName" required><span aria-label="required">*</span>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <button type="submit">Submit</button>
+                </td>
+            </tr>
+        </table>
+    </fieldset>
 </form>
 </body>
 </html>

@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.net.URL;
@@ -18,6 +19,7 @@ import java.nio.file.Paths;
 
 @Component
 public class CatAasApiService {
+
     @Value("${root.directory}")
     private String rootDirectory;
     public ResponseEntity<Resource> downloadImageFile(String catImageUrlStr, String fileName, String folderName) {
@@ -28,11 +30,11 @@ public class CatAasApiService {
 
             if (imageBytes != null) {
                 Path path = Files.createDirectories(Paths.get(rootDirectory+folderName+"/"));
-                Path tempFile = Files.createFile(Path.of(path+"//"+ fileName +".jpg"));
-                try (OutputStream outputStream = new FileOutputStream(tempFile.toFile())) {
+                File tempFile = new File(path+"//"+ fileName +".jpg");
+                try (OutputStream outputStream = new FileOutputStream(tempFile)) {
                     outputStream.write(imageBytes);
                 }
-                Resource resource = new FileSystemResource(tempFile.toFile());
+                Resource resource = new FileSystemResource(tempFile);
                 HttpHeaders headers = new HttpHeaders();
                 headers.setContentType(MediaType.IMAGE_JPEG);
 
@@ -42,5 +44,8 @@ public class CatAasApiService {
             e.printStackTrace();
         }
         return ResponseEntity.status(500).build();
+    }
+    public void setRootDirectory(String rootDirectory) {
+        this.rootDirectory = rootDirectory;
     }
 }
