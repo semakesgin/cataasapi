@@ -1,5 +1,7 @@
-package com.cataas.cataasapi;
+package com.cataas.cataasapi.service;
 
+import com.cataas.cataasapi.entity.FileDetails;
+import com.cataas.cataasapi.repository.FileRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
@@ -24,23 +26,41 @@ import java.util.Arrays;
 public class CatAasApiReportService {
     @Value("${root.directory}")
     private String rootDirectory;
+    private FileRepository fileRepository;
+
+    public CatAasApiReportService(FileRepository fileRepository) {
+        this.fileRepository = fileRepository;
+    }
+
     public ResponseEntity<Resource> generateReport() {
-        String fileName=null;
+        String fileName= getCurrentTimestampForReportName()+"CatsReport.txt";
+        String fileNameWithPath = rootDirectory+ fileName;
         try {
-            fileName = rootDirectory+ getCurrentTimestampForReportName()+"CatsReport.txt";
-            FileWriter writer = new FileWriter(fileName);
-
-            writer.write("Total assets: " + countImageFilesInDirectories(rootDirectory) + "\n");
-            writer.write("Date of report: " + getCurrentTimestamp() + "\n\n");
-
-            writeSubfolderDetails(writer, rootDirectory);
-            writer.close();
-            return downloadCreatedReportFile(fileName);
+            writeFile(fileNameWithPath);
+            writeCreatedFileDetailsToDb(fileNameWithPath, fileName);
+            return downloadCreatedReportFile(fileNameWithPath);
 
         } catch (IOException e) {
             e.printStackTrace();
         }
         return ResponseEntity.notFound().build();
+    }
+
+    private void writeFile(String fileNameWithPath) throws IOException {
+        FileWriter writer = new FileWriter(fileNameWithPath);
+
+        writer.write("Total assets: " + countImageFilesInDirectories(rootDirectory) + "\n");
+        writer.write("Date of report: " + getCurrentTimestamp() + "\n\n");
+        writeSubfolderDetails(writer, rootDirectory);
+        writer.close();
+    }
+
+    private void writeCreatedFileDetailsToDb(String fileNameWithPath, String fileName) throws IOException {
+        FileDetails fileDetails = new FileDetails();
+        fileDetails.setFileName(fileName);
+        fileDetails.setFilePath(fileNameWithPath);
+        fileDetails.setFileSize((int) Files.size(Path.of(fileNameWithPath)));
+        fileRepository.save(fileDetails);
     }
 
     private static ResponseEntity<Resource> downloadCreatedReportFile(String fileName) throws IOException {

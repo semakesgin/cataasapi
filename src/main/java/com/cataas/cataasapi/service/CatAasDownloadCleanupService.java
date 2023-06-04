@@ -1,5 +1,6 @@
-package com.cataas.cataasapi;
+package com.cataas.cataasapi.service;
 
+import com.cataas.cataasapi.repository.FileRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -10,8 +11,13 @@ import java.io.File;
 public class CatAasDownloadCleanupService {
     @Value("${root.directory}")
     private String rootDirectory;
+    private final FileRepository fileRepository;
 
-    @Scheduled(cron = "0 0 0 * * *") // Runs daily at midnight
+    public CatAasDownloadCleanupService(FileRepository fileRepository) {
+        this.fileRepository = fileRepository;
+    }
+
+    @Scheduled(cron = "0 0 0 * * *")//Runs daily at midnight
     public void cleanupDownloads() {
         File downloadsDirectory = new File(rootDirectory);
         deleteContents(downloadsDirectory);
@@ -26,6 +32,7 @@ public class CatAasDownloadCleanupService {
                     deleteContents(file);
                 }
                 file.delete();
+                fileRepository.deleteAll();
             }
         }
     }

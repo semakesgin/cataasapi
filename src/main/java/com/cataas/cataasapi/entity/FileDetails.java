@@ -1,11 +1,11 @@
-package com.cataas.cataasapi;
+package com.cataas.cataasapi.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 
 @Entity(name = "file_details")
-public class File {
+public class FileDetails {
     @Id
     @GeneratedValue
     private Integer id;
@@ -13,15 +13,15 @@ public class File {
     private String fileName;
 
     private String filePath;
-    private Integer fileSize;
+    private long fileSize;
 
-    public File(String fileName, String filePath, Integer fileSize) {
+    public FileDetails(String fileName, String filePath, long fileSize) {
         this.fileName = fileName;
         this.filePath = filePath;
         this.fileSize = fileSize;
     }
 
-    public File() {
+    public FileDetails() {
     }
 
     @Override
@@ -40,5 +40,29 @@ public class File {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public String getFilePath() {
+        return filePath;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
+    }
+
+    public long getFileSize() {
+        return fileSize;
+    }
+
+    public void setFileSize(long fileSize) {
+        this.fileSize = fileSize;
     }
 }
