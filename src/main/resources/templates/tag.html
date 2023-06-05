@@ -5,20 +5,19 @@
     <title>Result</title>
 </head>
 <body>
-<form action="/handle-text-inserted" method="post">
+<form action="/tag" method="post">
     <fieldset>
-        <legend>Please enter a text</legend>
+        <legend>Please enter a tag</legend>
         <table>
             <tr>
-                <td>Text:</td>
-                <td><input type="text" name="text" required><span aria-label="required">*</span>
+                <td>Tag:</td>
+                <td><input type="text" name="tag" required><span aria-label="required">*</span>
                 </td>
             </tr>
             <tr>
                 <td>File Name:</td>
                 <td><input type="text" name="fileName" required><span aria-label="required">*</span>
                 </td>
-            </tr>
             <tr>
                 <td></td>
                 <td>
@@ -26,6 +25,7 @@
                 </td>
             </tr>
         </table>
+
     </fieldset>
 </form>
 </body>

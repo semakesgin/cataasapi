@@ -24,6 +24,7 @@ import java.util.Arrays;
 
 @Component
 public class CatAasApiReportService {
+
     @Value("${root.directory}")
     private String rootDirectory;
     private FileRepository fileRepository;
@@ -33,11 +34,11 @@ public class CatAasApiReportService {
     }
 
     public ResponseEntity<Resource> generateReport() {
-        String fileName= getCurrentTimestampForReportName()+"CatsReport.txt";
-        String fileNameWithPath = rootDirectory+ fileName;
+        String fileName = getCurrentTimestampForReportName() + "CatsReport.txt";
+        String fileNameWithPath = rootDirectory + fileName;
         try {
             writeFile(fileNameWithPath);
-            writeCreatedFileDetailsToDb(fileNameWithPath, fileName);
+            writeCreatedFileDetailsToDb(fileNameWithPath, fileName, (long) Files.size(Path.of(fileNameWithPath)));
             return downloadCreatedReportFile(fileNameWithPath);
 
         } catch (IOException e) {
@@ -55,15 +56,15 @@ public class CatAasApiReportService {
         writer.close();
     }
 
-    private void writeCreatedFileDetailsToDb(String fileNameWithPath, String fileName) throws IOException {
+    public void writeCreatedFileDetailsToDb(String fileNameWithPath, String fileName, long size) throws IOException {
         FileDetails fileDetails = new FileDetails();
         fileDetails.setFileName(fileName);
         fileDetails.setFilePath(fileNameWithPath);
-        fileDetails.setFileSize((int) Files.size(Path.of(fileNameWithPath)));
+        fileDetails.setFileSize(size);
         fileRepository.save(fileDetails);
     }
 
-    private static ResponseEntity<Resource> downloadCreatedReportFile(String fileName) throws IOException {
+    private ResponseEntity<Resource> downloadCreatedReportFile(String fileName) throws IOException {
         File reportFile = new File(fileName);
         Resource resource = new FileSystemResource(reportFile);
 
@@ -78,7 +79,7 @@ public class CatAasApiReportService {
         return new ResponseEntity<>(resource, headers, HttpStatus.OK);
     }
 
-    private void writeSubfolderDetails(FileWriter writer, String directory) throws IOException {
+    public void writeSubfolderDetails(FileWriter writer, String directory) throws IOException {
         File[] subFolders = new File(directory).listFiles(File::isDirectory);
 
         if (subFolders != null) {
@@ -100,24 +101,33 @@ public class CatAasApiReportService {
                 writer.write("\n");
             }
         }
+        writer.flush();
     }
+
     private String getCurrentTimestamp() {
         LocalDateTime now = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
         return now.format(formatter);
     }
+
     private String getCurrentTimestampForReportName() {
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
         return now.format(formatter);
     }
-    private int countImageFilesInDirectories(String directory) throws IOException {
+
+    public int countImageFilesInDirectories(String directory) throws IOException {
         return (int) Files.walk(Paths.get(directory))
                 .filter(Files::isRegularFile)
                 .filter(p -> p.getFileName().toString().endsWith(".jpg"))
                 .count();
     }
+
     public void setRootDirectory(String rootDirectory) {
         this.rootDirectory = rootDirectory;
+    }
+
+    public String getRootDirectory() {
+        return rootDirectory;
     }
 }

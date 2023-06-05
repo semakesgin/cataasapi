@@ -20,26 +20,26 @@ public class CatAasApiController {
         this.service = service;
     }
 
-    @GetMapping("/")
+    @GetMapping("/choices")
     public String showChoices() {
         return "choices";
     }
 
 
-    @PostMapping("/handle-choice")
-    public String handleChoice(@RequestParam("choice") String choice, Model model) {
+    @PostMapping("/choice-selected")
+    public String choiceSelected(@RequestParam("choice") String choice, Model model) {
         model.addAttribute("choice", choice);
         return switch (choice) {
-            case ("tagChoice") -> "insertTag";
-            case ("textChoice") -> "insertText";
-            case ("widthHeightChoice") -> "insertWidthHeight";
+            case ("tagChoice") -> "tag";
+            case ("textChoice") -> "text";
+            case ("widthHeightChoice") -> "widthHeight";
             default -> "Invalid Choice";
         };
 
     }
 
-    @PostMapping("/handle-tag-inserted")
-    public ResponseEntity<Resource> handleTagInserted(@RequestParam("tag") String tag, @RequestParam("fileName") String fileName, Model model) {
+    @PostMapping("/tag")
+    public ResponseEntity<Resource> tagEntered(@RequestParam("tag") String tag, @RequestParam("fileName") String fileName, Model model) {
         model.addAttribute("tag", tag);
         model.addAttribute("fileName", fileName);
 
@@ -51,8 +51,8 @@ public class CatAasApiController {
 
     }
 
-    @PostMapping("/handle-text-inserted")
-    public ResponseEntity<Resource> handleTextInserted(@RequestParam("text") String text, @RequestParam("fileName") String fileName, Model model) {
+    @PostMapping("/text")
+    public ResponseEntity<Resource> textEntered(@RequestParam("text") String text, @RequestParam("fileName") String fileName, Model model) {
         model.addAttribute("text", text);
         model.addAttribute("fileName", fileName);
 
@@ -63,8 +63,8 @@ public class CatAasApiController {
 
     }
 
-    @PostMapping("/handle-width-height-inserted")
-    public ResponseEntity<Resource> handleWidthHeightInserted(@RequestParam("width") String width, @RequestParam("height") String height, @RequestParam("fileName") String fileName, Model model) {
+    @PostMapping("/width-height")
+    public ResponseEntity<Resource> widthHeightEntered(@RequestParam("width") String width, @RequestParam("height") String height, @RequestParam("fileName") String fileName, Model model) {
         model.addAttribute("width", width);
         model.addAttribute("height", height);
         model.addAttribute("fileName", fileName);

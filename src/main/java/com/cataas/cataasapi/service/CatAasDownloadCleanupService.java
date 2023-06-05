@@ -9,6 +9,7 @@ import java.io.File;
 
 @Component
 public class CatAasDownloadCleanupService {
+
     @Value("${root.directory}")
     private String rootDirectory;
     private final FileRepository fileRepository;
@@ -21,6 +22,8 @@ public class CatAasDownloadCleanupService {
     public void cleanupDownloads() {
         File downloadsDirectory = new File(rootDirectory);
         deleteContents(downloadsDirectory);
+        fileRepository.deleteAll();
+
     }
 
     private void deleteContents(File directory) {
@@ -32,8 +35,11 @@ public class CatAasDownloadCleanupService {
                     deleteContents(file);
                 }
                 file.delete();
-                fileRepository.deleteAll();
             }
         }
     }
+    public void setRootDirectory(String rootDirectory) {
+        this.rootDirectory = rootDirectory;
+    }
+
 }
