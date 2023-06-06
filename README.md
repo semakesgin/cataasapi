@@ -1,5 +1,6 @@
 # **REST Client for the CATAAS API**
-## **Overview**
+**Overview**
+
 REST client accesses the public CATAAS API at <https://cataas.com/#/> and shows the results to the users on demand. It provides a web page available at http://localhost:8080/choices where users can choose from the following options:
 
 1. Get a random cat with a tag. 
