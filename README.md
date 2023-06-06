@@ -58,18 +58,18 @@ To install and run the application, follow these steps:
 
 - Comment out the following two lines in application.properties: 
 ```
-spring.datasource.url =jdbc:mysql://localhost:3306/cat\_aas\_api\_database
+spring.datasource.url =jdbc:mysql://localhost:3306/cat_aas_api_database
 spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQLDialect
 ```
 - Add the following two lines to application.properties:
 ```
 spring.h2.console.enabled=true
-spring.datasource.url = jdbc:h2:mem:cat\_aas\_api\_database
+spring.datasource.url = jdbc:h2:mem:cat_aas_api_database
 ```
 1. Run the application and open <http://localhost:8080/choices> in your web browser.
 
-1. To view the file\_details table in the database, go to <http://localhost:8080/h2-console>  and use the following credentials: 
-- JDBC URL: jdbc:h2:mem:cat\_aas\_api\_database
+1. To view the file_details table in the database, go to <http://localhost:8080/h2-console>  and use the following credentials: 
+- JDBC URL: jdbc:h2:mem:cat_aas_api_database
 - User name: root
 - Password: password
 
